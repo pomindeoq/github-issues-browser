@@ -1,21 +1,23 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import UserAvatar from './UserAvatar'
 import shorten from '../utils/stringUtils'
 
-const IssueListItem = ({ issue }) => {
+const IssueListItem = ({ issue, onSelect }) => {
 
     return (
-        <View style={styles.issue}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.number}>#{issue.number}</Text>
-                <Text style={styles.title}>{issue.title}</Text>
+        <TouchableOpacity onPress={onSelect}>
+            <View style={styles.issue}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.number}>#{issue.number}</Text>
+                    <Text style={styles.title}>{issue.title}</Text>
+                </View>
+                <View style={styles.avatarContainer}>
+                    <UserAvatar user={issue.user}/>
+                    <Text style={styles.body}>{shorten(issue.body)}</Text>
+                </View>
             </View>
-            <View style={styles.avatarContainer}>
-                <UserAvatar user={issue.user}/>
-                <Text style={styles.body}>{shorten(issue.body)}</Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

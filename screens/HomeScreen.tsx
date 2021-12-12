@@ -1,9 +1,10 @@
 import React, { Props, useState } from 'react'
 import { StyleSheet, Text, View, TextInput, SafeAreaView, Button } from 'react-native'
 
-const homeScreen = ({navigation}) => {
+const homeScreen = ({ navigation }) => {
     const [currentOrg, setCurrentOrg] = useState('');
     const [currentRepo, setCurrentRepo] = useState('');
+    const title = `${currentOrg} / ${currentRepo}`;
 
     type ChangeHandler = (text: string) => void
 
@@ -32,7 +33,7 @@ const homeScreen = ({navigation}) => {
                 autoFocus={true}
             />
             <Button
-                onPress={() => { navigation.navigate('Issues', {org: currentOrg, repo: currentRepo }) } }
+                onPress={() => { navigation.navigate('Issues', {org: currentOrg, repo: currentRepo, title: title }) } }
                 title="Load issues"
                 color="#841584"
             />

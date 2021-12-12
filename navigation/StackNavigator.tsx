@@ -10,7 +10,7 @@ const StackNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Enter repo to load' }}/>
-            <Stack.Screen name="Issues" component={IssuesScreen} options={{ title: 'Issues' }}/>
+            <Stack.Screen name="Issues" component={IssuesScreen} options={({ route }) => ({ title: route.params.title })}/>
             <Stack.Screen name="IssueDetails" component={IssueDetailsScreen} />
         </Stack.Navigator>
     )

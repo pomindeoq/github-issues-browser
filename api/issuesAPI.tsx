@@ -20,7 +20,22 @@ const getPageCount = (pageLinks) => {
 }
 
 export function getIssues(org: string, repo: string, page = 1) {
-  const url = `https://api.github.com/repos/${org}/${repo}/issues?per_page=20&page=${page}`;
+  const url = `https://api.github.com/repos/${org}/${repo}/issues?per_page=15&page=${page}`;
+  return axios.get(url)
+    .then(res => {
+      const pageLinks = parseLink(res.headers.link);
+      const pageCount = getPageCount(pageLinks);
+      return {
+        pageLinks,
+        pageCount,
+        data: res.data
+      };
+    })
+    .catch(err => Promise.reject(err));
+}
+
+export function getFilteredIssues(org: string, repo: string, filter: string, value: string, page = 1) {
+  const url = `https://api.github.com/repos/${org}/${repo}/issues?${filter}=${value}&per_page=15&page=${page}`;
   return axios.get(url)
     .then(res => {
       const pageLinks = parseLink(res.headers.link);
