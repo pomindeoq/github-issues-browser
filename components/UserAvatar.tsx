@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     userName: {
-        fontSize: 12,
+        fontSize: 10,
         color: 'grey'
     }, 
     avatarContainer: {

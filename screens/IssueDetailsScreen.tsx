@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import UserAvatar from '../components/UserAvatar';
+import UserAvatar from '../components/UserAvatar'
 import IssueState from '../components/IssueState'
+import { AntDesign } from '@expo/vector-icons';
+import { Linking } from 'react-native';
 
-const IssueDetailsScreen = (props) => {
-    const {title, state, number, user, labels, body, comments} = props.route.params;
+
+const IssueDetailsScreen = ( props ) => {
+    const {title, state, number, user, labels, body, comments, url} = props.route.params;
+    const headerTitle = `Issue #${number}`;
+
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+          headerTitle: headerTitle,
+        });
+      }, [props.navigation]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -14,7 +24,7 @@ const IssueDetailsScreen = (props) => {
                         <Text style={styles.title}>{title}</Text>
                     </View>    
                     <View style={styles.infoContainer}>
-                        <Text style={styles.number}>#{number}</Text>
+                        <AntDesign name="github" size={30} color="black" onPress={() => Linking.openURL(url)}/>
                         <IssueState state={state}/>
                         <UserAvatar user={user}/>
                     </View>
@@ -58,8 +68,6 @@ const styles = StyleSheet.create({
     descriptionContainer: {
         fontSize: 14,
         padding: 10,
-        borderColor:'grey',
-        borderBottomWidth:1,
     },
     body: {
         padding: 5,

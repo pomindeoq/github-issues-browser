@@ -1,9 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import UserAvatar from './UserAvatar'
-import shorten from '../utils/stringUtils'
+import IssueState from './IssueState';
+import IssueLabels from './IssueLabels';
 
 const IssueListItem = ({ issue, onSelect }) => {
+    const commentsString = issue.comments === 1 ? 'comment' : 'comments'
 
     return (
         <TouchableOpacity onPress={onSelect}>
@@ -14,7 +16,11 @@ const IssueListItem = ({ issue, onSelect }) => {
                 </View>
                 <View style={styles.avatarContainer}>
                     <UserAvatar user={issue.user}/>
-                    <Text style={styles.body}>{shorten(issue.body)}</Text>
+                    <IssueState state={issue.state}/>
+                    <Text>({issue.comments} {commentsString})</Text>
+                </View>
+                <View style={styles.labelsContainer}>
+                    <IssueLabels labels={issue.labels}/>
                 </View>
             </View>
         </TouchableOpacity>
@@ -33,31 +39,33 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
       },
     title: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 'bold',
         flexWrap: 'wrap',
         marginLeft: 7
     },
     number: {
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 11,
         color: 'grey',
     },
     titleContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        maxWidth: 250
+        maxWidth: 290
     },
     avatarContainer: {
-        marginTop: 5,
+        marginTop: 10,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        maxWidth: 250
+    },
+    labelsContainer: {
+        marginTop: 10
     },
     body : {
         fontSize: 13,
         padding: 5
-    }
+    },
 })

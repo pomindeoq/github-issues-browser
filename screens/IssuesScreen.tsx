@@ -1,21 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react'
 import { StyleSheet, Text, View, ActivityIndicator, FlatList, Button } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIssues, Issue } from '../redux/actions';
+import { getIssues, Issue, searchIssues } from '../redux/actions';
 import IssueListItem from '../components/IssueListItem';
 import Paginate from '../components/Paginate';
-//import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { Searchbar } from 'react-native-paper';
+import { Entypo } from '@expo/vector-icons';
 
-const IssuesScreen = props => {
+const IssuesScreen = ({ route, navigation }) => {
+    const [searchQuery, setSearchQuery] = useState('');
     const dispatch = useDispatch();
-    
-    const repo = props.route.params.repo;
-    const org = props.route.params.org;
-    const title = props.route.params.title;
-    console.log(org);
+    const repo = route.params.repo;
+    const org = route.params.org;
     
     let {currentPageIssues, pageCount, pageLinks, isLoading, error } = useSelector(state => state.issues);
-
+    
     const loadIssues = useCallback(async () => {
         try {
           await dispatch(getIssues(org, repo, 1));
@@ -28,36 +27,54 @@ const IssuesScreen = props => {
         loadIssues().then(() => {
           
         });
-    }, [dispatch, loadIssues, repo, org]);
+    }, [dispatch, loadIssues]);
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: route.params.title,
+        headerRight: () => (
+          <Entypo name="github" size={30} color="black" />
+        ),
+      });
+    }, [navigation]);
 
     const selectItemHandler = (issue: Issue) => {
-      props.navigation.navigate('IssueDetails', {
+      navigation.navigate('IssueDetails', {
         title: issue.title,
         state: issue.state,
         number: issue.number,
         user: issue.user,
         labels : issue.labels,
         body: issue.body,
-        comments: issue.comments
+        comments: issue.comments,
+        url: issue.url
       });
     };
 
+    const search = () => {
+      dispatch(searchIssues(org, repo, searchQuery, 1))
+    }
+
+    const changeSearch = (query: string) => {
+      setSearchQuery(query);
+      console.log(searchQuery);
+    }
+
     const loadPrevPage = () => {
       const currentPage = pageLinks.next.page - 1; 
-      if(currentPage != 1) {
-        dispatch(getIssues(org, repo, currentPage - 1)); 
+      if(searchQuery) {
+        dispatch(searchIssues(org, repo, searchQuery, currentPage - 1)); 
       } else {
-        console.log("First page")
+        dispatch(getIssues(org, repo, currentPage - 1)); 
       }
     }
 
     const loadNextPage = () => {
       const nextPage = pageLinks.next.page;
-      const lastPage = pageLinks.last.page;
-      if(nextPage -1 != lastPage) {
-        dispatch(getIssues(org, repo, nextPage)); 
+      if(searchQuery) {
+        dispatch(searchIssues(org, repo, searchQuery, nextPage)); 
       } else {
-       console.log("This is last page")
+        dispatch(getIssues(org, repo, nextPage)); 
       }
     }
 
@@ -79,34 +96,41 @@ const IssuesScreen = props => {
     }
 
     return (
-        <FlatList
-            data={currentPageIssues}
-            renderItem={itemData => (
-            <IssueListItem onSelect={() => {
-                           selectItemHandler(itemData.item);}} 
-                           issue={itemData.item}/>)}
-            keyExtractor={item => item.id}
-            ListFooterComponentStyle={styles.footer}
-            ListFooterComponent={
-            <Paginate onLoadPrevPage={loadPrevPage} 
-                      onLoadNextPage={loadNextPage} 
-                      currentPage={pageLinks.next.page - 1} 
-                      lastPage={pageLinks.last.page}/>}
+      <View>
+        <Searchbar
+          placeholder="Search"
+          onChangeText={changeSearch}
+          value={searchQuery}
+          autoComplete={false}
+          onIconPress={search}
         />
+        <FlatList
+          data={currentPageIssues}
+          renderItem={itemData => (
+          <IssueListItem onSelect={() => {
+                          selectItemHandler(itemData.item);}} 
+                          issue={itemData.item}/>)}
+          keyExtractor={item => item.id}
+          ListFooterComponentStyle={styles.footer}
+          ListFooterComponent={
+          <Paginate onLoadPrevPage={loadPrevPage} 
+                    onLoadNextPage={loadNextPage} 
+                    currentPage={pageLinks != null ? pageLinks.next.page - 1 : 1} 
+                    lastPage={pageLinks != null ? pageLinks.last.page : 1}/>}
+        />
+      </View>  
     )
 }
 
 export default IssuesScreen
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-    footer : {
-      flex:1, 
-      justifyContent: 'flex-end', 
-      marginBottom: 30
-    }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footer : {
+    marginBottom: 80
+  }
 })
