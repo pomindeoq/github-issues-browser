@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Linking } from 'react-native';
 
 
-const IssueDetailsScreen = ( props ) => {
+const IssueDetailsScreen = (props : any) => {
     const {title, state, number, user, labels, body, comments, url} = props.route.params;
     const headerTitle = `Issue #${number}`;
 

@@ -1,7 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
+import { User } from '../models/interfaces';
 
-const UserAvatar = ({ user }) => {
+interface UserAvatarProps {
+    user: User
+}
+
+const UserAvatar = ({ user } : UserAvatarProps) => {
     return (
         <View style={styles.avatarContainer}>
             <Image style={styles.image} source={{ uri: user.avatar_url}}/>

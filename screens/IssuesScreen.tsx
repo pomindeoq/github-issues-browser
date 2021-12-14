@@ -1,33 +1,24 @@
 import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react'
 import { StyleSheet, Text, View, ActivityIndicator, FlatList, Button } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIssues, Issue, searchIssues } from '../redux/actions';
+import { getIssues, searchIssues } from '../redux/actions';
 import IssueListItem from '../components/IssueListItem';
 import Paginate from '../components/Paginate';
 import { Searchbar } from 'react-native-paper';
 import { Entypo } from '@expo/vector-icons';
+import { Issue } from '../models/interfaces';
 
-const IssuesScreen = ({ route, navigation }) => {
+const IssuesScreen = ({ route, navigation } : any) => {
     const [searchQuery, setSearchQuery] = useState('');
     const dispatch = useDispatch();
     const repo = route.params.repo;
     const org = route.params.org;
     
-    let {currentPageIssues, pageCount, pageLinks, isLoading, error } = useSelector(state => state.issues);
-    
-    const loadIssues = useCallback(async () => {
-        try {
-          await dispatch(getIssues(org, repo, 1));
-        } catch (err) {
-          
-        }
-    }, [dispatch]);
+    let { currentPageIssues, pageLinks, isLoading, query, error } = useSelector((state) => state.issues);
     
     useEffect(() => {
-        loadIssues().then(() => {
-          
-        });
-    }, [dispatch, loadIssues]);
+      dispatch(getIssues(org, repo, 1));
+    }, [dispatch]);
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -38,7 +29,7 @@ const IssuesScreen = ({ route, navigation }) => {
       });
     }, [navigation]);
 
-    const selectItemHandler = (issue: Issue) => {
+    const selectItemHandler = (issue: Issue) : void => {
       navigation.navigate('IssueDetails', {
         title: issue.title,
         state: issue.state,
@@ -51,16 +42,15 @@ const IssuesScreen = ({ route, navigation }) => {
       });
     };
 
-    const search = () => {
+    const search = () : void => {
       dispatch(searchIssues(org, repo, searchQuery, 1))
     }
 
-    const changeSearch = (query: string) => {
+    const changeSearch = (query: string) : void => {
       setSearchQuery(query);
-      console.log(searchQuery);
     }
 
-    const loadPrevPage = () => {
+    const loadPrevPage = () : void => {
       const currentPage = pageLinks.next.page - 1; 
       if(searchQuery) {
         dispatch(searchIssues(org, repo, searchQuery, currentPage - 1)); 
@@ -69,7 +59,7 @@ const IssuesScreen = ({ route, navigation }) => {
       }
     }
 
-    const loadNextPage = () => {
+    const loadNextPage = () : void => {
       const nextPage = pageLinks.next.page;
       if(searchQuery) {
         dispatch(searchIssues(org, repo, searchQuery, nextPage)); 

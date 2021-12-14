@@ -1,12 +1,18 @@
 import React from 'react'
 import { Button, StyleSheet, Text, View } from 'react-native'
+interface PaginateProps {
+    onLoadPrevPage: () => void,
+    onLoadNextPage: () => void,
+    currentPage : number,
+    lastPage: number
+}
 
-const Paginate = (props) => {
+const Paginate = ({ onLoadPrevPage, onLoadNextPage, currentPage, lastPage } : PaginateProps) => {
     return (
         <View style={styles.container}>
-            <Button title="< Prev" onPress={props.onLoadPrevPage} disabled={props.currentPage == 1}></Button>
-            <Text style={styles.text}>{props.currentPage} of {props.lastPage} pages</Text>
-            <Button title="Next >" onPress={props.onLoadNextPage} disabled={props.currentPage == props.LastPage}></Button>
+            <Button title="< Prev" onPress={onLoadPrevPage} disabled={currentPage == 1}></Button>
+            <Text style={styles.text}>{currentPage} of {lastPage} pages</Text>
+            <Button title="Next >" onPress={onLoadNextPage} disabled={currentPage == lastPage}></Button>
         </View>
     )
 }

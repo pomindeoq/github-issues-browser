@@ -3,8 +3,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import UserAvatar from './UserAvatar'
 import IssueState from './IssueState';
 import IssueLabels from './IssueLabels';
+import { Issue } from '../models/interfaces';
+interface IssueListItemProps {
+    issue: Issue,
+    onSelect: () => void
+}
 
-const IssueListItem = ({ issue, onSelect }) => {
+const IssueListItem = ({ issue, onSelect } : IssueListItemProps) => {
     const commentsString = issue.comments === 1 ? 'comment' : 'comments'
 
     return (

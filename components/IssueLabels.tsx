@@ -1,14 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Label } from '../redux/actions';
-
-
+import { Label } from '../models/interfaces';
 interface IssueLabelsProps {
     labels: Label[]
 }
 
-const IssueLabels = ({ labels }) => {
+const IssueLabels = ({ labels } : IssueLabelsProps) => {
 
     return (
         <View>

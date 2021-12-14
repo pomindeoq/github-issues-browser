@@ -1,7 +1,8 @@
-import React, { Props, useState } from 'react'
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Button } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
+import { AntDesign } from '@expo/vector-icons';
 
-const homeScreen = ({ navigation }) => {
+const homeScreen = ({ navigation } : any) => {
     const [currentOrg, setCurrentOrg] = useState('');
     const [currentRepo, setCurrentRepo] = useState('');
     const title = `${currentOrg} / ${currentRepo}`;
@@ -17,42 +18,60 @@ const homeScreen = ({ navigation }) => {
     }
     
     return (
-        <View style={styles.container} >
-            <TextInput 
-                style={styles.input} 
-                onChangeText={onOrgChanged} 
-                value={currentOrg} 
-                placeholder="Enter org"
-                autoFocus={true}
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onRepoChanged}
-                value={currentRepo} 
-                placeholder="Enter repo"
-                autoFocus={true}
-            />
-            <Button
-                onPress={() => { navigation.navigate('Issues', {org: currentOrg, repo: currentRepo, title: title }) } }
-                title="Load issues"
-                color="#841584"
-            />
-        </View>
+        <View style={styles.container}>
+            <View style={styles.logo}>
+                <AntDesign name="github" size={40} color="black" />
+            </View>
+            <View style={styles.inputs} >
+                <TextInput 
+                    style={styles.input} 
+                    onChangeText={onOrgChanged} 
+                    value={currentOrg} 
+                    placeholder="Enter organization"
+                    autoFocus={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={onRepoChanged}
+                    value={currentRepo} 
+                    placeholder="Enter repository"
+                    autoFocus={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+                <Button
+                    onPress={() => { navigation.navigate('Issues', {org: currentOrg, repo: currentRepo, title: title }) } }
+                    title="Load issues"
+                    color="#841584"
+                />
+            </View>
+        </View>    
     )
 }
 
 export default homeScreen
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'space-evenly'
+    },
     input: {
         height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,
       },
-    container: {
-        flex: 1,
+    inputs: {
+        flex: 3,
+        justifyContent: 'flex-start',
+    },
+    logo: {
+        flex: 2,
         justifyContent: 'center',
+        alignItems: 'center'
     }  
 })
 
