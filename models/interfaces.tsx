@@ -1,5 +1,4 @@
 import { Links } from "parse-link-header"
-import { ReducerAction } from "react";
 
 export interface Label {
     id: string
@@ -33,17 +32,6 @@ export interface GithubApiResponse {
 export interface ApiResponse {
     pageLinks: Links | null,
     data: GithubApiResponse,
-}
-
-export interface Action {
-    type: string,
-    payload : {
-        pageLinks : Links | null,
-        issues : Issue[],
-        isLoading : boolean,
-        query: string | null
-    },
-    error: Error | null 
 }
 
 export interface InitialState {

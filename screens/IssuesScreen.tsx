@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react'
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Button } from 'react-native'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
+import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIssues, searchIssues } from '../redux/actions';
 import IssueListItem from '../components/IssueListItem';

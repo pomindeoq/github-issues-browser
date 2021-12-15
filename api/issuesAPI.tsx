@@ -7,8 +7,9 @@ export async function getIssues(org: string, repo: string, page = 1) : Promise<A
   try {
     const res = await axios.get(url);
     const pageLinks = parseLink(res.headers.link);
+    console.log(pageLinks);
     return {
-      pageLinks,
+      pageLinks, 
       data: res.data
     };
   } catch (err) {

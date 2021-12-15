@@ -36,7 +36,7 @@ export function getIssuesFailure(error: Error){
   return {
       type: GET_ISSUES_FAILURE,
       error
-      };
+    };
   }
 
 export function searchIssues(org: string, repo: string, query: string, page: number) {

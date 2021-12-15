@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
+import { StyleSheet, View, TextInput, Button } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
 const homeScreen = ({ navigation } : any) => {

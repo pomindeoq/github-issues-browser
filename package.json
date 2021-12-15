@@ -7,16 +7,20 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@types/react-test-renderer": "^17.0.1",
     "axios": "^0.24.0",
+    "axios-mock-adapter": "^1.20.0",
     "expo": "~43.0.2",
     "expo-status-bar": "~1.1.0",
     "parse-link-header": "^1.0.1",
     "querystring": "^0.2.1",
+    "react": "^17.0.2",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-paper": "^4.11.1",
@@ -25,6 +29,7 @@
     "react-native-web": "0.17.1",
     "react-paginate": "^8.1.0",
     "react-redux": "^7.2.6",
+    "react-test-renderer": "^17.0.2",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "url": "^0.11.0",
@@ -32,10 +37,26 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/jest": "^27.0.3",
     "@types/parse-link-header": "^1.0.1",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
+    "jest-expo": "^43.0.1",
     "typescript": "~4.3.5"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/jest.setup.js"
+    ]
   },
   "private": true
 }

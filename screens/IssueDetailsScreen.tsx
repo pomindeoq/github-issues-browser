@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
 import UserAvatar from '../components/UserAvatar'
 import IssueState from '../components/IssueState'
 import { AntDesign } from '@expo/vector-icons';

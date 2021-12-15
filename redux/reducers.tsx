@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
+import { combineReducers, AnyAction } from 'redux';
 import {
     GET_ISSUES_BEGIN, GET_ISSUES_SUCCESS, GET_ISSUES_FAILURE, SEARCH_ISSUES_BEGIN, SEARCH_ISSUES_SUCCESS,
   } from './actions';
-import { Action, InitialState } from '../models/interfaces'
+import { InitialState } from '../models/interfaces'
 
 const initialIssuesState : InitialState = {
     currentPageIssues: [],
@@ -12,7 +12,7 @@ const initialIssuesState : InitialState = {
     error: null
 };  
 
-export function issuesReducer(state = initialIssuesState, action : Action) {
+export function issuesReducer(state = initialIssuesState, action: AnyAction) {
     switch(action.type) {
       case SEARCH_ISSUES_BEGIN:
       case GET_ISSUES_BEGIN:
