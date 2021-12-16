@@ -1,13 +1,10 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Page1 from '../__tests__/__mocks__/Issues/Page1.json'
-import { getIssues } from '../api/issuesAPI';
-
-beforeEach(() => {
-    
-});
+import { getIssues, searchIssues } from '../api/issuesAPI';
 
 describe('getIssues', () => {
+
     it('returns correct data', async () => {
         const mock = new MockAdapter(axios);
         mock.onGet("https://api.github.com/search/issues?q=is:issue+is:open+repo:rails/rails&per_page=15&page=1")
@@ -44,6 +41,19 @@ describe('getIssues', () => {
                     "url": "https://api.github.com/search/issues?q=is%3Aissue+is%3Aopen+repo%3Arails%2Frails&per_page=15&page=2"
                 }
             });
+        });
+    });
+
+    it('fails with error', async () => {
+        const mock = new MockAdapter(axios);
+        const error = new Error('Request failed with status code 404')
+        mock.onGet("https://api.github.com/search/issues?q=is:issue+is:open+repo:&per_page=15&page=1")
+            .reply(404, error);
+
+        await searchIssues('', '', '', 1)
+                    .then(fail)
+                    .catch((e) => {
+                    expect(e).toEqual(new Error('Request failed with status code 404'));
         });
     });
 });

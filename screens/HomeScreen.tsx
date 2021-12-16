@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, TextInput, Button } from 'react-native'
+import { StyleSheet, View, TextInput, Button, Alert } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
 const homeScreen = ({ navigation } : any) => {
@@ -10,11 +10,23 @@ const homeScreen = ({ navigation } : any) => {
     type ChangeHandler = (text: string) => void
 
     const onOrgChanged: ChangeHandler = (text: string) => {
-        setCurrentOrg(text)
+        setCurrentOrg(text);
       }
     
     const onRepoChanged: ChangeHandler = (text: string) => {
-        setCurrentRepo(text)
+        setCurrentRepo(text);
+    }
+
+    const onPressHandler = () => {
+        if (!currentOrg.trim()) {
+            alert('Please Enter organization');
+            return;
+        }
+        if (!currentRepo.trim()) {
+            alert('Please Enter repository');
+            return;
+        }
+        navigation.navigate('Issues', {org: currentOrg, repo: currentRepo, title: title });
     }
     
     return (
@@ -42,7 +54,7 @@ const homeScreen = ({ navigation } : any) => {
                     autoCorrect={false}
                 />
                 <Button
-                    onPress={() => { navigation.navigate('Issues', {org: currentOrg, repo: currentRepo, title: title }) } }
+                    onPress={onPressHandler}
                     title="Load issues"
                     color="#841584"
                 />
