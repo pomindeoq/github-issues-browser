@@ -11,10 +11,10 @@ import { Issue } from '../models/interfaces';
 const IssuesScreen = ({ route, navigation } : any) => {
     const [searchQuery, setSearchQuery] = useState('');
     const dispatch = useDispatch();
-    const repo = route.params.repo;
-    const org = route.params.org;
+    const repo: string = route.params.repo;
+    const org: string = route.params.org;
     
-    let { currentPageIssues, pageLinks, isLoading, query, error } = useSelector((state) => state.issues);
+    let { currentPageIssues, pageLinks, isLoading, totalIssues, error } = useSelector((state) => state.issues);
     
     useEffect(() => {
       dispatch(getIssues(org, repo, 1));
@@ -51,21 +51,30 @@ const IssuesScreen = ({ route, navigation } : any) => {
     }
 
     const loadPrevPage = () : void => {
-      const currentPage = pageLinks.next.page - 1; 
-      if(searchQuery) {
-        dispatch(searchIssues(org, repo, searchQuery, currentPage - 1)); 
-      } else {
-        dispatch(getIssues(org, repo, currentPage - 1)); 
+      let currentPage: number | null = null;
+      if(pageLinks.next) {
+        currentPage = parseInt(pageLinks.next.page) - 1; 
+      } else if(pageLinks.prev) {
+        currentPage = parseInt(pageLinks.prev.page) + 1
+      }
+      if(currentPage) {
+        if(searchQuery) {
+          dispatch(searchIssues(org, repo, searchQuery, currentPage - 1)); 
+        } else {
+          dispatch(getIssues(org, repo, currentPage - 1)); 
+        }
       }
     }
 
     const loadNextPage = () : void => {
-      const nextPage = pageLinks.next.page;
-      if(searchQuery) {
-        dispatch(searchIssues(org, repo, searchQuery, nextPage)); 
-      } else {
-        dispatch(getIssues(org, repo, nextPage)); 
-      }
+      if(pageLinks.next) {
+        const nextPage: number = parseInt(pageLinks.next.page);
+        if(searchQuery) {
+          dispatch(searchIssues(org, repo, searchQuery, nextPage)); 
+        } else {
+          dispatch(getIssues(org, repo, nextPage)); 
+        }
+      }     
     }
 
     if (isLoading) {
@@ -105,8 +114,8 @@ const IssuesScreen = ({ route, navigation } : any) => {
           ListFooterComponent={
           <Paginate onLoadPrevPage={loadPrevPage} 
                     onLoadNextPage={loadNextPage} 
-                    currentPage={pageLinks != null ? pageLinks.next.page - 1 : 1} 
-                    lastPage={pageLinks != null ? pageLinks.last.page : 1}/>}
+                    currentPage={pageLinks.next ? parseInt(pageLinks.next.page) - 1 : parseInt(pageLinks.prev.page) + 1} 
+                    lastPage={pageLinks.last ? parseInt(pageLinks.last.page) : parseInt(pageLinks.prev.page) + 1}/>}
         />
       </View>  
     )

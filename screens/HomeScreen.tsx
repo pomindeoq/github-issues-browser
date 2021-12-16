@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 const homeScreen = ({ navigation } : any) => {
     const [currentOrg, setCurrentOrg] = useState('');
     const [currentRepo, setCurrentRepo] = useState('');
-    const title = `${currentOrg} / ${currentRepo}`;
+    const title : string = `${currentOrg} / ${currentRepo}`;
 
     type ChangeHandler = (text: string) => void
 
@@ -17,7 +17,7 @@ const homeScreen = ({ navigation } : any) => {
         setCurrentRepo(text);
     }
 
-    const onPressHandler = () => {
+    const onPressHandler = () : void => {
         if (!currentOrg.trim()) {
             alert('Please Enter organization');
             return;

@@ -8,7 +8,7 @@ import { Linking } from 'react-native';
 
 const IssueDetailsScreen = (props : any) => {
     const {title, state, number, user, labels, body, comments, url} = props.route.params;
-    const headerTitle = `Issue #${number}`;
+    const headerTitle: string = `Issue #${number}`;
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
