@@ -1,6 +1,6 @@
 import { combineReducers, AnyAction } from 'redux';
 import {
-    GET_ISSUES_BEGIN, GET_ISSUES_SUCCESS, GET_ISSUES_FAILURE, SEARCH_ISSUES_BEGIN, SEARCH_ISSUES_SUCCESS,
+    GET_ISSUES_BEGIN, GET_ISSUES_SUCCESS, GET_ISSUES_FAILURE, SEARCH_ISSUES_BEGIN, SEARCH_ISSUES_SUCCESS, SEARCH_ISSUES_FAILURE
   } from './actions';
 import { InitialState } from '../models/interfaces'
 
@@ -31,6 +31,8 @@ export function issuesReducer(state = initialIssuesState, action: AnyAction) {
           error: null
         };
       case GET_ISSUES_FAILURE:
+      case SEARCH_ISSUES_FAILURE:
+        console.log(action.error)
         return {
           ...state,
           isLoading: false,

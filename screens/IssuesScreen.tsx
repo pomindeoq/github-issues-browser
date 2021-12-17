@@ -15,6 +15,8 @@ const IssuesScreen = ({ route, navigation } : any) => {
     const org: string = route.params.org;
     
     let { currentPageIssues, pageLinks, isLoading, totalIssues, error } = useSelector((state) => state.issues);
+
+    console.log(error);
     
     useEffect(() => {
       dispatch(getIssues(org, repo, 1));
@@ -23,6 +25,7 @@ const IssuesScreen = ({ route, navigation } : any) => {
     useLayoutEffect(() => {
       navigation.setOptions({
         headerTitle: route.params.title,
+        headerTintColor: '#6200ee',
         headerRight: () => (
           <Entypo name="github" size={30} color="black" />
         ),
@@ -77,19 +80,29 @@ const IssuesScreen = ({ route, navigation } : any) => {
       }     
     }
 
-    if (isLoading) {
+    if (error) {
       return (
         <View style={styles.container}>
-          <ActivityIndicator size="large"/>
+          <Text style={styles.info}>An error occurred!</Text>
+          <View>
+              <Text style={styles.error}>{error.toString()}</Text>
+          </View>
         </View>
       );
     }
 
-    if (!isLoading && currentPageIssues.length === 0) {
+    if (isLoading) {
       return (
         <View style={styles.container}>
-          <Text>No issues found!</Text>
-          <Text>{error}</Text>
+          <ActivityIndicator size="large" color="#6200ee"/>
+        </View>
+      );
+    }
+
+    if (!isLoading && currentPageIssues.length === 0 && !error) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.info}>No issues found!</Text>
         </View>
       );
     }
@@ -131,5 +144,13 @@ const styles = StyleSheet.create({
   },
   footer : {
     marginBottom: 80
+  },
+  error: {
+    marginTop: 20,
+    color: 'red',
+    fontSize: 16
+  },
+  info: {
+    fontSize: 18
   }
 })

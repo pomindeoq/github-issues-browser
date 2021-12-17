@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, TextInput, Button, Alert } from 'react-native'
+import { StyleSheet, View, Button } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
+import { TextInput } from 'react-native-paper';
 
 const homeScreen = ({ navigation } : any) => {
     const [currentOrg, setCurrentOrg] = useState<string>('');
@@ -36,27 +37,29 @@ const homeScreen = ({ navigation } : any) => {
             </View>
             <View style={styles.inputs} >
                 <TextInput 
-                    style={styles.input} 
                     onChangeText={onOrgChanged} 
                     value={currentOrg} 
-                    placeholder="Enter organization"
-                    autoFocus={true}
-                    autoCapitalize="none"
-                    autoCorrect={false}
+                    label="organization"
+                    mode="flat"
+                    placeholder="enter org"
+                    autoComplete={false}
+                    style={styles.input}
+                    autoCapitalize='none'
                 />
                 <TextInput
-                    style={styles.input}
                     onChangeText={onRepoChanged}
                     value={currentRepo} 
-                    placeholder="Enter repository"
-                    autoFocus={true}
-                    autoCapitalize="none"
-                    autoCorrect={false}
+                    label="repository"
+                    mode="flat"
+                    placeholder="enter repo"
+                    autoComplete={false}
+                    style={styles.input}
+                    autoCapitalize='none'
                 />
                 <Button
                     onPress={onPressHandler}
                     title="Load issues"
-                    color="#841584"
+                    color="#6200ee"
                 />
             </View>
         </View>    
@@ -71,10 +74,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     input: {
-        height: 40,
+        height: 60,
         margin: 12,
-        borderWidth: 1,
-        padding: 10,
       },
     inputs: {
         flex: 3,

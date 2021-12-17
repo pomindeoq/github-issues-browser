@@ -14,6 +14,7 @@ const IssueDetailsScreen = (props : any) => {
     useLayoutEffect(() => {
         props.navigation.setOptions({
           headerTitle: headerTitle,
+          headerTintColor: '#6200ee',
         });
       }, [props.navigation]);
 
