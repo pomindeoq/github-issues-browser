@@ -4,10 +4,11 @@ import UserAvatar from '../components/UserAvatar'
 import IssueState from '../components/IssueState'
 import { AntDesign } from '@expo/vector-icons';
 import { Linking } from 'react-native';
+import IssueLabels from '../components/IssueLabels';
 
 
 const IssueDetailsScreen = (props : any) => {
-    const {title, state, number, user, labels, body, comments, url} = props.route.params;
+    const {title, state, number, user, labels, body, url} = props.route.params;
     const headerTitle: string = `Issue #${number}`;
 
     useLayoutEffect(() => {
@@ -28,6 +29,7 @@ const IssueDetailsScreen = (props : any) => {
                         <UserAvatar user={user}/>
                     </View>
                     <View style={styles.descriptionContainer}>
+                        <IssueLabels labels={labels}/>
                         <Text style={styles.body}>{body}</Text>
                     </View>
             </ScrollView>  
@@ -71,5 +73,6 @@ const styles = StyleSheet.create({
     body: {
         padding: 5,
         fontSize: 14,
+        paddingTop: 15
     }
 })

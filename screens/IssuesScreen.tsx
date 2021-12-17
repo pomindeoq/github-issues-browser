@@ -9,7 +9,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Issue } from '../models/interfaces';
 
 const IssuesScreen = ({ route, navigation } : any) => {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const dispatch = useDispatch();
     const repo: string = route.params.repo;
     const org: string = route.params.org;

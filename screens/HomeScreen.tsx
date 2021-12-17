@@ -3,8 +3,8 @@ import { StyleSheet, View, TextInput, Button, Alert } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
 const homeScreen = ({ navigation } : any) => {
-    const [currentOrg, setCurrentOrg] = useState('');
-    const [currentRepo, setCurrentRepo] = useState('');
+    const [currentOrg, setCurrentOrg] = useState<string>('');
+    const [currentRepo, setCurrentRepo] = useState<string>('');
     const title : string = `${currentOrg} / ${currentRepo}`;
 
     type ChangeHandler = (text: string) => void
